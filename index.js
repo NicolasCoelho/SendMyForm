@@ -7,7 +7,7 @@ app.use(express.json)
 
 app.use(helmet())
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 // CORS 
 app.use(function(req, res, next) {
@@ -17,7 +17,8 @@ app.use(function(req, res, next) {
 });
 
 app.get("/", (req,res) => {
-    res.send("Email Sender Running")
+    console.log("Request received")
+    return res.send("Email Sender Running")
 })
 
 app.post("/send", async(req,res) => {
