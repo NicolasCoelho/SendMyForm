@@ -17,13 +17,12 @@ app.use(function(req, res, next) {
 });
 
 app.get("/", (req,res) => {
-    console.log("Request received")
     return res.send("Email Sender Running")
 })
 
 app.post("/send", async(req,res) => {
     const params = req.body
-    
+
     if (!validateParams(params)) return res.send("Parametros invalidos")
     
     const emailResponse = await sender.sendEmail(params)
