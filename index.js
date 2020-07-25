@@ -3,7 +3,7 @@ const express = require("express")
 const app = express()
 const sender = require("./email")
 
-app.use(express.json)
+app.use(express.json())
 
 app.use(helmet())
 
@@ -22,9 +22,11 @@ app.get("/", (req,res) => {
 })
 
 app.post("/send", async(req,res) => {
-    if (!validateParams(req.params)) return res.send("Parametros invalidos")
+    const params = req.body
     
-    const emailResponse = await sender.sendEmail(req.params)
+    if (!validateParams(params)) return res.send("Parametros invalidos")
+    
+    const emailResponse = await sender.sendEmail(params)
     
     if (emailResponse) return res.send("Erro ao enviar mensagem")
 
