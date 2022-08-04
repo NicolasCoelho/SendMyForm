@@ -10,7 +10,7 @@ app.use(routes)
 
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1)
-  sess.cookie.secure = true
+  session.cookie.secure = true
 }
 
 const port = process.env.PORT
