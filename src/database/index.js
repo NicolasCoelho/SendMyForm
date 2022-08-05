@@ -4,11 +4,6 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@mai
 module.exports = {
   async getClient() {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-    return await new Promise((resolve, reject) => {
-      client.connect(err => {
-        if (err) return reject(err)
-        return resolve(client)
-      });
-    })
+    return await client.connect()
   }
 }

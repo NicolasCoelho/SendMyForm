@@ -7,7 +7,7 @@ const middlewares = require('./middleware')
 const session = require('express-session')
 const sessionConfig = { 
   secret: process.env.SESSION_SECRET, 
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 600000 }
 }
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1)
