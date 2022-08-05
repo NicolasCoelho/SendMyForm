@@ -20,4 +20,4 @@ app.use(views)
 app.use(routes)
 
 const port = process.env.PORT
-app.listen(port, () => console.log(`Server listening on port ${port}`))
+app.listen(port, () => console.log(`Server running on http://localhost:${port}`))

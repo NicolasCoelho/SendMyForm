@@ -49,14 +49,13 @@
               },
               body: JSON.stringify(payload)
             }).then(r => r.json())
-            payload._id = result.insertedId
-            payload.date = Date.now()
-            this.forms.push(payload)
-            this.clearInputs()
+            if(!result._id) return alert(result.message)
+            this.forms.push(result)
           } catch (error) {
             alert('Erro')
           } finally {
             this.loading = false
+            this.clearInputs()
           }
         }
       },

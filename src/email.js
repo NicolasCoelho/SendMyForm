@@ -12,7 +12,7 @@ class Email {
   }
   async sendEmail(name, origin, target, title, htmlContent, textContent = "") {
     return await this.emailClient.sendEmail({
-      Source: `${name} <no-reply@faneylab.com>`,
+      Source: `${name} <contact@faneylab.com>`,
       Destination: {
         ToAddresses: [
           target
@@ -34,13 +34,15 @@ class Email {
           }
         }
       },
-      ConfigurationSetName: 'divulgadores'
+      ConfigurationSetName: 'sendmyform'
     }).promise()
   }
   createEmailContent(obj) {
     delete obj.formkey
-    if (obj.captcha) delete obj.captcha
-    
+    if(obj.captcha) delete obj.captcha
+    if(obj['g-recaptcha-response']) delete obj['g-recaptcha-response']
+    if(obj['h-captcha-response']) delete obj['h-captcha-response']
+
     const html = `
       <html>
         <head></head>
@@ -48,7 +50,7 @@ class Email {
           <table width="600" style="text-align: center;">
             <tbody>
               <tr>
-                <td><h1>Novo contato pelo Formul&acute;rio</h1></td>
+                <td><h1>Novo contato pelo Formul&aacute;rio</h1></td>
               </tr>
               ${ Object.keys(obj).slice(0, 100).map(key => this.createRow(key, obj[key])).join('') }
             </tbody>

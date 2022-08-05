@@ -5,7 +5,8 @@ module.exports = async (token) => {
     try {
         const result = await verify(process.env.HCAPTCHA_KEY, token)
         return result.success
-    } catch {
+    } catch(err) {
+        console.log(err)
         return false
     }
 }

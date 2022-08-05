@@ -7,27 +7,34 @@ class Sender {
   async route(req, res) {
     const payload = req.body
 
-    if(!payload.formkey) return res.status(401).json({e: "Unauthorized"})
+    if(!payload.formkey) return res.status(401).json({success: false, message: "Unauthorized"})
+
+    if(Object.keys(payload).filter(key => payload[key]).length === 0)
+      return res.status(400).json({sucess: false, message: "Bad Request"})
 
     const result = await this.send(payload)
 
     const message = 
       result === 200 ? 'Envio Realizado com sucesso' : 
-      result === 403 ? 'Invalid Captcha' : 
-      result === 403 ? 'Não encontrado' : 
+      result === 401 ? 'Invalid Captcha' : 
+      result === 403 ? 'Invalid ID' :
+      result === 404 ? 'Não encontrado' : 
       'Erro Interno'
 
-    return res.status(result).json({resultado: message})
+    return res.status(result).json({success: result === 200, message})
   }
   async send(payload) {
     try {
+      if(payload.formkey.length != 24) return 403
       const form = await this.form.getById(payload.formkey)
       if(!form) return 404 
   
       if(form.captcha) {
-        const validation = this.verifyCaptcha(payload.captcha)
+        if(!payload['h-captcha-response'] && !payload.captcha) return 401
+
+        const validation = await this.verifyCaptcha(payload['h-captcha-response'] || payload.captcha)
   
-        if(!validation) return 403
+        if(!validation) return 401
       }
   
       const emailContent = this.email.createEmailContent(payload)
@@ -41,7 +48,8 @@ class Sender {
         emailContent.text
       )
       return 200 
-    } catch (error) {
+    } catch (err) {
+      console.log(err)
       return 500
     }
   }
