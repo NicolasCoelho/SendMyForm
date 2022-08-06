@@ -16,6 +16,8 @@ router.get('/admin', protect, async (req, res) => {
   res.status(200).send(file) 
 })
 
+router.get('/', (req, res) => res.status(301).redirect('/login'))
+
 const getFile = async (filename) => {
   return await new Promise((resolve, reject) => 
     fs.readFile(path.resolve(__dirname, filename), { encoding: 'UTF-8' }, 
