@@ -6,43 +6,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SendMyForm</title>
   <script src="https://unpkg.com/vue@3"></script>
+  <link rel="stylesheet" href="/s/css/app.css">
   <link rel="stylesheet" href="/s/css/admin.css">
   <link rel="icon" type="image/x-icon" href="/s/images/favicon.ico">
 </head>
 <body>
   <div id="app">
-    <img src="/s/images/logo.png" alt="FaneyLab">
-    <h1>Admin</h1>
-    <form action="/api/auth/logout" method="POST">
-      <button type="submit">Sair</button>
-    </form>
-    <form action="/api/form" method="POST" @submit="saveForm">
-      <input type="text" v-model="newForm.name" placeholder="Nome">
-      <input type="email" v-model="newForm.email" placeholder="E-mail">
-      <input type="checkbox" v-model="newForm.captcha" id="captcha">
-      <label for="captcha">Utilizar Captcha</label>
-      <button type="submit" :disabled="loading">Salvar</button>
-      <img v-if="loading" src="/s/svgs/loading.svg" alt="Loading" width="20">
-    </form>
-    <table>
-      <thead>
-        <th>Id</th>
-        <th>Nome</th>
-        <th>E-mail</th>
-        <th>Captcha</th>
-        <th>Data</th>
-      </thead>
-      <tbody>
-        <tr v-for="f of forms">
-          <td>{{ f._id }}</td>
-          <td>{{ f.name }}</td>
-          <td>{{ f.email }}</td>
-          <td>{{ parseCaptcha(f.captcha) }}</td>
-          <td>{{ parseDatetime(f.date) }}</td>
-          <td><button @click="deleteForm(f._id)" :disabled="loading">Excluir</button></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="container">
+      <header>
+        <a href="https://faneylab.com" rel="noreferrer noopener">
+          <img src="/s/images/logo.png" alt="FaneyLab" width="200">
+        </a>
+        <form action="/api/auth/logout" method="POST"><button type="submit">Sair</button></form>
+      </header>
+      <main>
+        <h1>
+          Dashboard 
+          <img v-if="loading" src="/s/svgs/loading.svg" alt="Loading" width="20">
+        </h1>
+        <form action="/api/form" method="POST" @submit="saveForm" class="new-form">
+          <div class="inputs">
+            <div class="input-wrapper">
+              <input type="text" v-model="newForm.name" placeholder="Nome">
+            </div>
+            <div class="input-wrapper">
+              <input type="email" v-model="newForm.email" placeholder="E-mail">
+            </div>
+            <div class="input-wrapper" style="width: 100%; margin-top: 10px;">
+              <input type="checkbox" v-model="newForm.captcha" id="captcha">
+              <label for="captcha">Utilizar Captcha</label>
+              <button type="submit" :disabled="loading">Salvar</button>
+            </div>
+          </div>
+        </form>
+        <h3 style="margin-bottom: 0;">Meus Formulários</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <th>Id</th>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Captcha</th>
+              <th>Data</th>
+              <th>Ação</th>
+            </thead>
+            <tbody>
+              <tr v-for="f of forms">
+                <td>{{ f._id }}</td>
+                <td>{{ f.name }}</td>
+                <td>{{ f.email }}</td>
+                <td>{{ parseCaptcha(f.captcha) }}</td>
+                <td>{{ parseDatetime(f.date) }}</td>
+                <td><button @click="deleteForm(f._id)" :disabled="loading">Excluir</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
   </div>
   <script src="/s/js/admin.js"></script>
 </body>

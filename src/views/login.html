@@ -5,15 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SendMyForm</title>
+  <link rel="stylesheet" href="/s/css/app.css">
   <link rel="stylesheet" href="/s/css/login.css">
   <link rel="icon" type="image/x-icon" href="/s/images/favicon.ico">
 </head>
 <body>
-  <form action="/api/auth" method="POST">
-    <h1>Login</h1>
-    <input type="text" placeholder="Nome" name="username">
-    <input type="password" placeholder="Senha" name="password">
-    <button type="submit">Entrar</button>
-  </form>
+  <div class="container">
+    <form action="/api/auth" method="POST">
+      <h1>Login</h1>
+      <div class="input-wrapper">
+        <label for="username">Usuário</label>
+        <input type="text" name="username">  
+      </div>
+      <div class="input-wrapper">
+        <label for="password">Senha</label>
+        <input type="password" name="password">
+      </div>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
 </body>
 </html>
